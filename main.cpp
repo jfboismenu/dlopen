@@ -19,7 +19,7 @@ int main(int argc, char** argv)
 
     std::cout << "Loaded shared module." << std::endl;
 
-    const char* function_name = "_Z8functionv";
+    const char* function_name = "function";
 
     function_func* function = reinterpret_cast<function_func*>(dlsym(handle, function_name));
 
