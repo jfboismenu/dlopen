@@ -1,15 +1,11 @@
 #include <iostream>
 #include <dlfcn.h>
 
-typedef const char* function_func();
+typedef void function_func();
 
 int main(int argc, char** argv)
 {
-    if (argc < 2) {
-        std::cout << "Provide a dylib name on the command line." << std::endl;
-        return -1;\
-    }
-    std::cout << "Attempting to load shared module " << argv[1] << std::endl;
+    std::cout << "Attempting to load shared module " << std::endl;
     auto handle = dlopen(argv[1], RTLD_LAZY);
 
     if (!handle) {
@@ -19,7 +15,7 @@ int main(int argc, char** argv)
 
     std::cout << "Loaded shared module." << std::endl;
 
-    const char* function_name = "function";
+    const char* function_name = "run";
 
     function_func* function = reinterpret_cast<function_func*>(dlsym(handle, function_name));
 
@@ -27,7 +23,8 @@ int main(int argc, char** argv)
         std::cout << "Could not find symbol '" << function_name << "': " << dlerror() << std::endl;
     }
 
-    std::cout << function() << std::endl;
+    function();
+
     dlclose(handle);
     return 0;
 }
